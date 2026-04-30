@@ -13,9 +13,20 @@ export async function POST(req: NextRequest) {
     console.log('📦 [API] Request Data:', JSON.stringify(data, null, 2));
     const { name, phone, dob, service, date, time } = data;
     
-    // Clean phone number (remove spaces, dashes, etc.)
+    // Clean phone number
     const cleanPhone = phone ? phone.toString().replace(/\D/g, '') : '';
-    const finalPhone = cleanPhone.length === 10 ? `+1${cleanPhone}` : `+${cleanPhone}`;
+    
+    // If it's 10 digits and doesn't start with 1, assume it needs a country code.
+    // For now, I'll allow the user to set a DEFAULT_COUNTRY_CODE, or default to empty.
+    let finalPhone = cleanPhone;
+    if (cleanPhone.length === 10) {
+      // Defaulting to +91 since you are using Indian numbers in your tests
+      finalPhone = `+91${cleanPhone}`;
+    } else if (!cleanPhone.startsWith('+')) {
+      finalPhone = `+${cleanPhone}`;
+    }
+    
+    console.log(`📱 [API] Final Patient Phone: ${finalPhone}`);
 
     if (!name || !cleanPhone || !date || !time) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -36,19 +47,25 @@ export async function POST(req: NextRequest) {
       time,
       id: confirmationId
     });
+    console.log('✉️ [API] Sending Patient Confirmation...');
     await sendWhatsApp(finalPhone, message);
+    console.log('✅ [API] Patient Confirmation Sent.');
     
     // 4. Notify Doctor (if phone is configured)
     if (config.clinic.doctorPhone) {
+      console.log(`✉️ [API] Notifying Doctor at: ${config.clinic.doctorPhone}`);
       const doctorMessage = templates.DOCTOR_NOTIFICATION({
         name,
         date,
         time,
-        service,
+        service: service || 'General Checkup',
         id: confirmationId,
         phone: finalPhone
       });
       await sendWhatsApp(config.clinic.doctorPhone, doctorMessage);
+      console.log('✅ [API] Doctor Notification Sent.');
+    } else {
+      console.log('⚠️ [API] No DOCTOR_PHONE configured in Environment Variables.');
     }
 
     return NextResponse.json({ 
