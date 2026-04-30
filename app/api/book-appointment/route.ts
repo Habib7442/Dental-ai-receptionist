@@ -85,7 +85,13 @@ export async function POST(req: NextRequest) {
       eventId: event.id 
     });
   } catch (error: any) {
-    console.error('API Error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('❌ [API] CRITICAL ERROR:', error.message);
+    if (error.response) {
+      console.error('❌ [API] Error Details:', JSON.stringify(error.response.data, null, 2));
+    }
+    return NextResponse.json(
+      { error: 'Internal Server Error', details: error.message },
+      { status: 500 }
+    );
   }
 }
