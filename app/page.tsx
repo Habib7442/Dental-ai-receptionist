@@ -1,116 +1,567 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import {
+  Phone,
+  Calendar,
+  MessageCircle,
+  Bot,
+  Shield,
+  Clock,
+  Star,
+  ChevronRight,
+  Sparkles,
+  Mic,
+  CheckCircle2,
+  ArrowRight,
+  MapPin,
+  Mail,
+} from "lucide-react";
+
+/* ─── tiny reusable bits ─── */
+function GoldDivider() {
+  return <div className="section-divider mx-auto my-6" />;
+}
+
+function SectionTag({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-2 text-sm tracking-[0.25em] uppercase text-royal-gold/80 font-semibold mb-4">
+      <Sparkles size={14} className="text-royal-gold" />
+      {children}
+    </span>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden"
+    >
+      {/* Background image + overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/dental-hero.png"
+          alt="Elite Dental Clinic Interior"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-midnight-purple/95 via-midnight-purple/80 to-midnight-purple/50" />
+        {/* decorative ring */}
+        <div className="absolute -right-40 -top-40 w-[600px] h-[600px] rounded-full border border-royal-gold/10 animate-rotate-slow" />
+        <div className="absolute -right-20 -top-20 w-[400px] h-[400px] rounded-full border border-marigold/5 animate-rotate-slow" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32">
+        <div className="max-w-2xl">
+          <div className="animate-fade-in-up opacity-0">
+            <SectionTag>AI-Powered Dental Care</SectionTag>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold leading-[1.08] tracking-tight mt-4 animate-fade-in-up opacity-0 delay-100">
+            Your Smile,{" "}
+            <span className="gold-text">Our Priority</span>
+          </h1>
+
+          <p className="mt-6 text-lg md:text-xl text-champagne/70 leading-relaxed max-w-lg animate-fade-in-up opacity-0 delay-200">
+            Meet <strong className="text-royal-gold">Sarah</strong> — our 24/7 AI
+            voice receptionist. Book appointments, get instant confirmations on
+            WhatsApp, and never wait on hold again.
+          </p>
+
+          <div className="flex flex-wrap gap-4 mt-10 animate-fade-in-up opacity-0 delay-300">
+            <a href="#how-it-works" className="btn-premium flex items-center gap-2 text-base">
+              <Phone size={18} /> Call Sarah Now
+            </a>
+            <a href="#features" className="btn-outline flex items-center gap-2 text-base">
+              Learn More <ChevronRight size={16} />
+            </a>
+          </div>
+
+          {/* Trust badges */}
+          <div className="flex flex-wrap items-center gap-6 mt-14 animate-fade-in-up opacity-0 delay-400">
+            {[
+              { icon: <Shield size={16} />, label: "HIPAA Compliant" },
+              { icon: <Clock size={16} />, label: "Available 24/7" },
+              { icon: <Star size={16} />, label: "5-Star Rated" },
+            ].map((b) => (
+              <span
+                key={b.label}
+                className="flex items-center gap-2 text-xs tracking-widest uppercase text-champagne/50"
+              >
+                <span className="text-royal-gold">{b.icon}</span>
+                {b.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-float">
+        <span className="text-[10px] tracking-[0.3em] uppercase text-champagne/30">
+          Scroll
+        </span>
+        <div className="w-5 h-8 rounded-full border border-royal-gold/30 flex items-start justify-center p-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-royal-gold animate-pulse" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HOW IT WORKS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const steps = [
+  {
+    num: "01",
+    icon: <Mic size={28} />,
+    title: "Call or Chat",
+    desc: "Reach out to Sarah anytime — by phone or web. She understands natural speech perfectly.",
+  },
+  {
+    num: "02",
+    icon: <Calendar size={28} />,
+    title: "Instant Booking",
+    desc: "Sarah checks the doctor's live calendar and books your appointment in seconds.",
+  },
+  {
+    num: "03",
+    icon: <MessageCircle size={28} />,
+    title: "Confirmation",
+    desc: "Receive a WhatsApp confirmation with your details, plus your doctor gets notified automatically.",
+  },
+];
+
+function HowItWorks() {
+  return (
+    <section id="how-it-works" className="py-28 relative">
+      {/* subtle bg */}
+      <div className="absolute inset-0 bg-gradient-to-b from-midnight-purple via-velvet-violet/20 to-midnight-purple pointer-events-none" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-16">
+          <SectionTag>Simple Process</SectionTag>
+          <h2 className="text-4xl md:text-5xl font-bold gold-text mt-2">
+            How It Works
+          </h2>
+          <GoldDivider />
+          <p className="mt-4 text-champagne/60 max-w-lg mx-auto">
+            Three effortless steps from your first call to sitting in the chair.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {steps.map((s, i) => (
+            <div
+              key={s.num}
+              className="glass-card rounded-2xl p-8 text-center group"
+              style={{ animationDelay: `${i * 0.15}s` }}
+            >
+              {/* number badge */}
+              <span className="text-[64px] font-bold leading-none text-royal-gold/10 group-hover:text-royal-gold/20 transition-colors select-none">
+                {s.num}
+              </span>
+              <div className="w-14 h-14 mx-auto -mt-6 rounded-xl bg-gradient-to-br from-royal-gold/20 to-marigold/10 flex items-center justify-center text-royal-gold">
+                {s.icon}
+              </div>
+              <h3 className="mt-5 text-xl font-semibold text-champagne">
+                {s.title}
+              </h3>
+              <p className="mt-3 text-champagne/55 text-sm leading-relaxed">
+                {s.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FEATURES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const features = [
+  {
+    icon: <Bot size={24} />,
+    title: "AI Voice Agent",
+    desc: "Powered by GPT-4, Sarah sounds human and handles complex conversations with empathy.",
+  },
+  {
+    icon: <Calendar size={24} />,
+    title: "Google Calendar Sync",
+    desc: "Real-time calendar integration prevents double-bookings and keeps your schedule accurate.",
+  },
+  {
+    icon: <MessageCircle size={24} />,
+    title: "WhatsApp Alerts",
+    desc: "Patients and doctors get instant WhatsApp confirmations — no missed appointments.",
+  },
+  {
+    icon: <Shield size={24} />,
+    title: "Secure & Private",
+    desc: "Enterprise-grade encryption ensures patient data stays safe and HIPAA-compliant.",
+  },
+  {
+    icon: <Clock size={24} />,
+    title: "24/7 Availability",
+    desc: "Sarah never sleeps. Patients can book at midnight or during holidays — always open.",
+  },
+  {
+    icon: <Star size={24} />,
+    title: "Smart Follow-ups",
+    desc: "Automated reminders 24h and 2h before the appointment, plus post-visit review requests.",
+  },
+];
+
+function Features() {
+  return (
+    <section id="features" className="py-28 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-velvet-violet/10 to-transparent pointer-events-none" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-16">
+          <SectionTag>Why Choose Us</SectionTag>
+          <h2 className="text-4xl md:text-5xl font-bold gold-text mt-2">
+            Premium Features
+          </h2>
+          <GoldDivider />
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((f, i) => (
+            <div
+              key={f.title}
+              className="glass-card rounded-2xl p-7 group"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-royal-gold/20 to-marigold/10 flex items-center justify-center text-royal-gold mb-5 group-hover:scale-110 transition-transform">
+                {f.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-champagne">{f.title}</h3>
+              <p className="mt-2 text-sm text-champagne/50 leading-relaxed">
+                {f.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SERVICES
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const services = [
+  { name: "General Checkup", price: "Free Consultation" },
+  { name: "Teeth Whitening", price: "From ₹2,500" },
+  { name: "Root Canal", price: "From ₹5,000" },
+  { name: "Dental Implants", price: "From ₹15,000" },
+  { name: "Braces & Aligners", price: "From ₹25,000" },
+  { name: "Cosmetic Dentistry", price: "Custom Quote" },
+];
+
+function Services() {
+  return (
+    <section id="services" className="py-28 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-midnight-purple via-velvet-violet/15 to-midnight-purple pointer-events-none" />
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-16">
+          <SectionTag>Our Services</SectionTag>
+          <h2 className="text-4xl md:text-5xl font-bold gold-text mt-2">
+            What We Offer
+          </h2>
+          <GoldDivider />
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((s) => (
+            <div
+              key={s.name}
+              className="glass-card rounded-2xl p-6 flex items-center gap-4 group cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-royal-gold/25 to-marigold/10 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 size={18} className="text-royal-gold" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-champagne group-hover:text-royal-gold transition-colors">
+                  {s.name}
+                </h3>
+                <p className="text-xs text-champagne/40 mt-0.5">{s.price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TESTIMONIALS
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const testimonials = [
+  {
+    name: "Priya Sharma",
+    role: "Patient",
+    text: "I called at 11 PM and Sarah booked my appointment instantly. Got the WhatsApp confirmation right away. Incredible!",
+    stars: 5,
+  },
+  {
+    name: "Dr. Rajesh Patel",
+    role: "Partner Dentist",
+    text: "Since adding the AI receptionist, my no-show rate dropped by 60%. The automated reminders are a game-changer.",
+    stars: 5,
+  },
+  {
+    name: "Anjali Mehta",
+    role: "Patient",
+    text: "It felt like talking to a real person. Sarah was so polite and even reminded me to bring my insurance card.",
+    stars: 5,
+  },
+];
+
+function Testimonials() {
+  return (
+    <section id="testimonials" className="py-28 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-velvet-violet/10 to-transparent pointer-events-none" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12">
+        <div className="text-center mb-16">
+          <SectionTag>Testimonials</SectionTag>
+          <h2 className="text-4xl md:text-5xl font-bold gold-text mt-2">
+            What People Say
+          </h2>
+          <GoldDivider />
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => (
+            <div key={t.name} className="glass-card rounded-2xl p-7">
+              {/* stars */}
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: t.stars }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={14}
+                    className="fill-royal-gold text-royal-gold"
+                  />
+                ))}
+              </div>
+              <p className="text-champagne/70 text-sm leading-relaxed italic">
+                &ldquo;{t.text}&rdquo;
+              </p>
+              <div className="mt-5 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-royal-gold to-marigold flex items-center justify-center text-midnight-purple font-bold text-sm">
+                  {t.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-champagne">
+                    {t.name}
+                  </p>
+                  <p className="text-xs text-champagne/40">{t.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CTA
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function CTA() {
+  return (
+    <section id="cta" className="py-28 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-midnight-purple via-velvet-violet/25 to-midnight-purple pointer-events-none" />
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 text-center">
+        <div className="glass-card rounded-3xl p-12 md:p-16 animate-pulse-glow">
+          <SectionTag>Get Started Today</SectionTag>
+          <h2 className="text-4xl md:text-5xl font-bold gold-text mt-2">
+            Ready to Transform Your Clinic?
+          </h2>
+          <p className="mt-5 text-champagne/60 max-w-lg mx-auto leading-relaxed">
+            Let Sarah handle your calls while you focus on what matters —
+            providing world-class dental care to your patients.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            <a
+              href="tel:+12125550198"
+              className="btn-premium flex items-center gap-2 text-base"
+            >
+              <Phone size={18} /> Book Appointment
+            </a>
+            <a
+              href="#contact"
+              className="btn-outline flex items-center gap-2 text-base"
+            >
+              Contact Us <ArrowRight size={16} />
+            </a>
+          </div>
+
+          {/* Stats row */}
+          <div className="grid grid-cols-3 gap-6 mt-14 pt-10 border-t border-royal-gold/10">
+            {[
+              { val: "2,500+", label: "Appointments Booked" },
+              { val: "98%", label: "Patient Satisfaction" },
+              { val: "24/7", label: "Always Available" },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="text-2xl md:text-3xl font-bold gold-text">
+                  {s.val}
+                </p>
+                <p className="text-xs text-champagne/40 mt-1 uppercase tracking-wider">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function Footer() {
+  return (
+    <footer
+      id="contact"
+      className="border-t border-royal-gold/10 bg-midnight-purple/80 py-16"
+    >
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-3 gap-12">
+          {/* Brand */}
+          <div>
+            <h3 className="text-2xl font-bold gold-text">
+              Elite Dental
+            </h3>
+            <p className="mt-3 text-sm text-champagne/50 leading-relaxed">
+              Where cutting-edge AI meets compassionate dental care. Your smile
+              deserves the best.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-royal-gold/70 mb-4">
+              Quick Links
+            </h4>
+            <ul className="space-y-2">
+              {["How It Works", "Features", "Services", "Testimonials"].map(
+                (l) => (
+                  <li key={l}>
+                    <a
+                      href={`#${l.toLowerCase().replace(/ /g, "-")}`}
+                      className="text-sm text-champagne/50 hover:text-royal-gold transition-colors"
+                    >
+                      {l}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-royal-gold/70 mb-4">
+              Contact
+            </h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-sm text-champagne/50">
+                <MapPin size={14} className="text-royal-gold flex-shrink-0" />
+                123 Smile Avenue, New York, NY
+              </li>
+              <li className="flex items-center gap-2 text-sm text-champagne/50">
+                <Phone size={14} className="text-royal-gold flex-shrink-0" />
+                +1 (212) 555-0198
+              </li>
+              <li className="flex items-center gap-2 text-sm text-champagne/50">
+                <Mail size={14} className="text-royal-gold flex-shrink-0" />
+                hello@elitedental.com
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-royal-gold/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-champagne/30">
+            © {new Date().getFullYear()} Elite Dental Clinic. All rights
+            reserved.
+          </p>
+          <p className="text-xs text-champagne/30 flex items-center gap-1">
+            Powered by <Bot size={12} className="text-royal-gold" /> AI Voice
+            Receptionist
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NAVBAR
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function Navbar() {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-midnight-purple/60 border-b border-royal-gold/10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+        <a href="#hero" className="text-xl font-bold gold-text">
+          Elite Dental
+        </a>
+
+        <div className="hidden md:flex items-center gap-8">
+          {["How It Works", "Features", "Services", "Testimonials"].map(
+            (link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase().replace(/ /g, "-")}`}
+                className="text-sm text-champagne/60 hover:text-royal-gold transition-colors"
+              >
+                {link}
+              </a>
+            )
+          )}
+        </div>
+
+        <a href="tel:+12125550198" className="btn-premium !py-2.5 !px-6 text-sm flex items-center gap-2">
+          <Phone size={14} /> Book Now
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PAGE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
-      {/* Background Gradients */}
-      <div className="hero-gradient" />
-      <div className="absolute top-[40%] left-[-10%] w-[40%] h-[50%] bg-teal-900/10 rounded-full blur-[100px] -z-10" />
-
-      {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 px-6 py-8 md:px-12">
-        <div className="max-w-7xl mx-auto flex items-center justify-between glass px-8 py-4">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center font-bold text-black text-xl">E</div>
-            <span className="text-xl font-bold tracking-tight">EliteDental</span>
-          </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-            <a href="#" className="hover:text-white transition-colors">Home</a>
-            <a href="#services" className="hover:text-white transition-colors">Services</a>
-            <a href="#ai" className="hover:text-white transition-colors">AI Receptionist</a>
-            <a href="#contact" className="hover:text-white transition-colors font-semibold text-teal-400 border border-teal-400/30 px-4 py-2 rounded-full hover:bg-teal-400/10">Book Now</a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <header className="relative pt-48 pb-20 px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-sm font-semibold mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-            </span>
-            Next-Gen Dental Care
-          </div>
-          <h1 className="text-6xl md:text-8xl font-bold leading-[1.1] mb-8 tracking-tighter">
-            Smart Care, <br />
-            <span className="gradient-text">Brighter Smiles.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-zinc-400 max-w-lg mb-10 leading-relaxed">
-            Experience the future of dentistry with 24/7 AI-powered scheduling and world-class dental expertise.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <button className="px-8 py-4 bg-teal-500 text-black font-bold rounded-2xl hover:bg-teal-400 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(45,212,191,0.3)]">
-              Book Appointment
-            </button>
-            <button className="px-8 py-4 glass text-white font-bold rounded-2xl hover:bg-white/10 transition-all">
-              Our Services
-            </button>
-          </div>
-        </div>
-        <div className="relative animate-float">
-          <div className="relative aspect-square w-full rounded-[40px] overflow-hidden border border-white/10 shadow-2xl">
-            <Image 
-              src="/dental_hero_premium_1777528942381.png" 
-              alt="Premium Dental Clinic" 
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          {/* AI Floating Card */}
-          <div className="absolute -bottom-10 -left-10 glass p-6 max-w-[240px] shadow-2xl border-teal-500/30">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center animate-pulse">
-                <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"/></svg>
-              </div>
-              <span className="text-sm font-bold">Sarah, AI Receptionist</span>
-            </div>
-            <p className="text-xs text-zinc-400">"How can I help you book your appointment today?"</p>
-          </div>
-        </div>
-      </header>
-
-      {/* Features Grid */}
-      <section className="section-padding max-w-7xl mx-auto" id="services">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="glass p-10 hover:border-teal-500/30 transition-all group">
-            <div className="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-teal-500 transition-colors">
-              <svg className="w-8 h-8 text-teal-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <h3 className="text-2xl font-bold mb-4">24/7 AI Booking</h3>
-            <p className="text-zinc-400 leading-relaxed">Book appointments instantly via voice agent, day or night. No waiting on hold.</p>
-          </div>
-          
-          <div className="glass p-10 hover:border-teal-500/30 transition-all group">
-            <div className="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-teal-500 transition-colors">
-              <svg className="w-8 h-8 text-teal-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-            </div>
-            <h3 className="text-2xl font-bold mb-4">WhatsApp Alerts</h3>
-            <p className="text-zinc-400 leading-relaxed">Receive instant confirmations and 24h reminders directly to your WhatsApp.</p>
-          </div>
-
-          <div className="glass p-10 hover:border-teal-500/30 transition-all group">
-            <div className="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-teal-500 transition-colors">
-              <svg className="w-8 h-8 text-teal-400 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Expert Doctors</h3>
-            <p className="text-zinc-400 leading-relaxed">Top-tier specialists dedicated to providing a comfortable, modern experience.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-20 px-6 border-t border-white/5 text-center">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center font-bold text-black">E</div>
-            <span className="text-lg font-bold">EliteDental</span>
-          </div>
-          <p className="text-zinc-500 text-sm">© 2026 Elite Dental Clinic. Powered by DentalAI Receptionist.</p>
-        </div>
-      </footer>
-    </div>
+    <>
+      <Navbar />
+      <Hero />
+      <HowItWorks />
+      <Features />
+      <Services />
+      <Testimonials />
+      <CTA />
+      <Footer />
+    </>
   );
 }
