@@ -74,7 +74,7 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-4 mt-10 animate-fade-in-up opacity-0 delay-300">
-            <a href="#how-it-works" className="btn-premium flex items-center gap-2 text-base">
+            <a href="tel:+19856022627" className="btn-premium flex items-center gap-2 text-base">
               <Phone size={18} /> Call Sarah Now
             </a>
             <a href="#features" className="btn-outline flex items-center gap-2 text-base">
@@ -399,7 +399,7 @@ function CTA() {
 
           <div className="flex flex-wrap justify-center gap-4 mt-10">
             <a
-              href="tel:+12125550198"
+              href="tel:+19856022627"
               className="btn-premium flex items-center gap-2 text-base"
             >
               <Phone size={18} /> Book Appointment
@@ -540,7 +540,7 @@ function Navbar() {
           )}
         </div>
 
-        <a href="tel:+12125550198" className="btn-premium !py-2.5 !px-6 text-sm flex items-center gap-2">
+        <a href="tel:+19856022627" className="btn-premium !py-2.5 !px-6 text-sm flex items-center gap-2">
           <Phone size={14} /> Book Now
         </a>
       </div>
