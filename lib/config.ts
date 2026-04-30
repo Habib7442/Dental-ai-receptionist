@@ -2,6 +2,7 @@ export const config = {
   google: {
     calendarId: process.env.GOOGLE_CALENDAR_ID,
     keyPath: process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH,
+    credentialsJSON: process.env.GOOGLE_SERVICE_ACCOUNT_JSON,
     sheetId: process.env.GOOGLE_SHEET_ID,
   },
   twilio: {

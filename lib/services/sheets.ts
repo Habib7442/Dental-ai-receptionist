@@ -3,7 +3,8 @@ import { config } from '../config';
 import path from 'path';
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: config.google.keyPath ? path.resolve(process.cwd(), config.google.keyPath) : undefined,
+  credentials: config.google.credentialsJSON ? JSON.parse(config.google.credentialsJSON) : undefined,
+  keyFile: !config.google.credentialsJSON && config.google.keyPath ? path.resolve(process.cwd(), config.google.keyPath) : undefined,
   scopes: [
     'https://www.googleapis.com/auth/spreadsheets'
   ],

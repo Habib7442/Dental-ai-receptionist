@@ -3,9 +3,9 @@ import { config } from '../config';
 import path from 'path';
 
 const auth = new google.auth.GoogleAuth({
-  // In Next.js, it's often better to pass the key as an env var string,
-  // but we'll follow the PRD/Skill recommendation for a file path.
-  keyFile: config.google.keyPath ? path.resolve(process.cwd(), config.google.keyPath) : undefined,
+  // Use raw JSON if available (ideal for Vercel), otherwise fallback to local file path
+  credentials: config.google.credentialsJSON ? JSON.parse(config.google.credentialsJSON) : undefined,
+  keyFile: !config.google.credentialsJSON && config.google.keyPath ? path.resolve(process.cwd(), config.google.keyPath) : undefined,
   scopes: [
     'https://www.googleapis.com/auth/calendar',
     'https://www.googleapis.com/auth/spreadsheets'
