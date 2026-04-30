@@ -9,9 +9,19 @@ import { v4 as uuidv4 } from 'uuid';
 export async function POST(req: NextRequest) {
   console.log('🚀 [API] Received booking request!');
   try {
-    const data = await req.json();
+    let data = await req.json();
     console.log('📦 [API] Request Data:', JSON.stringify(data, null, 2));
-    const { name, phone, dob, service, date, time } = data;
+
+    // Vapi sends tool arguments inside message.toolCalls[0].function.arguments
+    let args = data;
+    if (data.message?.toolCalls?.[0]?.function?.arguments) {
+      args = typeof data.message.toolCalls[0].function.arguments === 'string' 
+        ? JSON.parse(data.message.toolCalls[0].function.arguments)
+        : data.message.toolCalls[0].function.arguments;
+      console.log('🛠️ [API] Extracted Arguments:', JSON.stringify(args, null, 2));
+    }
+
+    const { name, phone, dob, service, date, time } = args;
     
     // Clean phone number
     const cleanPhone = phone ? phone.toString().replace(/\D/g, '') : '';
