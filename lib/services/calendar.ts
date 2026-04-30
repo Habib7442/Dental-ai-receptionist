@@ -46,11 +46,11 @@ export async function createEvent(appointmentData: any) {
     description: `Phone: ${phone} | DOB: ${dob || 'N/A'} | Status: ${status}`,
     start: {
       dateTime: startDateTime.toISOString(),
-      timeZone: 'UTC', 
+      timeZone: 'Asia/Kolkata', 
     },
     end: {
       dateTime: endDateTime.toISOString(),
-      timeZone: 'UTC',
+      timeZone: 'Asia/Kolkata',
     },
   };
 
