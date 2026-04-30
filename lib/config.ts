@@ -8,6 +8,7 @@ export const config = {
     accountSid: process.env.TWILIO_ACCOUNT_SID,
     authToken: process.env.TWILIO_AUTH_TOKEN,
     whatsappFrom: process.env.TWILIO_WHATSAPP_FROM,
+    phone: process.env.TWILIO_PHONE,
   },
   clinic: {
     name: process.env.CLINIC_NAME,

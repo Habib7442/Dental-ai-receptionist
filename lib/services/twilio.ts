@@ -19,8 +19,9 @@ export async function sendWhatsApp(to: string, message: string) {
 
 export async function sendSMS(to: string, message: string) {
   try {
+    const from = config.twilio.phone || config.twilio.whatsappFrom?.replace('whatsapp:', '') || '';
     const response = await client.messages.create({
-      from: config.twilio.phone || config.twilio.whatsappFrom.replace('whatsapp:', ''), // Fallback
+      from: from,
       to: to,
       body: message,
     });
