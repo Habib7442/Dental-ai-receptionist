@@ -12,8 +12,12 @@ export async function POST(req: NextRequest) {
     const data = await req.json();
     console.log('📦 [API] Request Data:', JSON.stringify(data, null, 2));
     const { name, phone, dob, service, date, time } = data;
+    
+    // Clean phone number (remove spaces, dashes, etc.)
+    const cleanPhone = phone ? phone.toString().replace(/\D/g, '') : '';
+    const finalPhone = cleanPhone.length === 10 ? `+1${cleanPhone}` : `+${cleanPhone}`;
 
-    if (!name || !phone || !date || !time) {
+    if (!name || !cleanPhone || !date || !time) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -32,7 +36,7 @@ export async function POST(req: NextRequest) {
       time,
       id: confirmationId
     });
-    await sendWhatsApp(phone, message);
+    await sendWhatsApp(finalPhone, message);
     
     // 4. Notify Doctor (if phone is configured)
     if (config.clinic.doctorPhone) {
@@ -42,7 +46,7 @@ export async function POST(req: NextRequest) {
         time,
         service,
         id: confirmationId,
-        phone
+        phone: finalPhone
       });
       await sendWhatsApp(config.clinic.doctorPhone, doctorMessage);
     }
