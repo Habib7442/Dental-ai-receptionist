@@ -6,6 +6,18 @@ import { templates } from '@/lib/messages';
 import { config } from '@/lib/config';
 import { v4 as uuidv4 } from 'uuid';
 
+// Convert "16:00" → "4:00 PM"
+function formatTime(time: string): string {
+  try {
+    const [h, m] = time.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
+  } catch {
+    return time;
+  }
+}
+
 export async function POST(req: NextRequest) {
   console.log('🚀 [API] Received booking request!');
   try {
@@ -63,10 +75,11 @@ export async function POST(req: NextRequest) {
     console.log('✅ [API] Logged to Sheets.');
 
     // 3. Send WhatsApp Confirmation
+    const friendlyTime = formatTime(time);
     const message = templates.CONFIRMATION_MESSAGE({
       name,
       date,
-      time,
+      time: friendlyTime,
       id: confirmationId
     });
     console.log('✉️ [API] Sending Patient Confirmation...');
@@ -79,7 +92,7 @@ export async function POST(req: NextRequest) {
       const doctorMessage = templates.DOCTOR_NOTIFICATION({
         name,
         date,
-        time,
+        time: friendlyTime,
         service: service || 'General Checkup',
         id: confirmationId,
         phone: finalPhone
@@ -90,11 +103,17 @@ export async function POST(req: NextRequest) {
       console.log('⚠️ [API] No DOCTOR_PHONE configured in Environment Variables.');
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: `Appointment successfully booked for ${name} on ${date} at ${time}. Confirmation ID: ${confirmationId}`,
-      confirmationId, 
-      eventId: event.id 
+    // Vapi expects a "results" array with the toolCallId
+    const toolCallId = data.message?.toolCalls?.[0]?.id;
+    const successMessage = `Appointment successfully booked for ${name} on ${date} at ${friendlyTime}. Confirmation ID: ${confirmationId}`;
+
+    return NextResponse.json({
+      results: [
+        {
+          toolCallId: toolCallId,
+          result: successMessage,
+        },
+      ],
     });
   } catch (error: any) {
     console.error('❌ [API] CRITICAL ERROR:', error.message);
