@@ -42,8 +42,8 @@ export async function createEvent(appointmentData: any) {
   const endDateTime = new Date(startDateTime.getTime() + duration * 60000);
 
   const event = {
-    summary: `${service.toUpperCase()} - ${name}`,
-    description: `Phone: ${phone} | DOB: ${dob} | Status: ${status}`,
+    summary: `${(service || 'General Checkup').toUpperCase()} - ${name}`,
+    description: `Phone: ${phone} | DOB: ${dob || 'N/A'} | Status: ${status}`,
     start: {
       dateTime: startDateTime.toISOString(),
       timeZone: 'UTC', 

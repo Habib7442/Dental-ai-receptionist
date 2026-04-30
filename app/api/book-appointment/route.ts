@@ -43,12 +43,24 @@ export async function POST(req: NextRequest) {
     }
 
     const confirmationId = uuidv4();
+    const bookingData = {
+      name,
+      phone: finalPhone,
+      dob: dob || '',
+      service: service || 'General Checkup',
+      date,
+      time,
+    };
     
     // 1. Create Google Calendar Event
-    const event = await createEvent({ ...data, id: confirmationId });
+    console.log('📅 [API] Creating Calendar Event...');
+    const event = await createEvent({ ...bookingData, id: confirmationId });
+    console.log('✅ [API] Calendar Event Created:', event.id);
 
     // 2. Log to Google Sheets
-    await logBooking({ ...data, id: confirmationId, status: 'Confirmed' });
+    console.log('📝 [API] Logging to Sheets...');
+    await logBooking({ ...bookingData, id: confirmationId, status: 'Confirmed' });
+    console.log('✅ [API] Logged to Sheets.');
 
     // 3. Send WhatsApp Confirmation
     const message = templates.CONFIRMATION_MESSAGE({
