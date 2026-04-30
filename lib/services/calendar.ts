@@ -38,18 +38,27 @@ export async function checkAvailability(date: string, time: string, duration: nu
 export async function createEvent(appointmentData: any) {
   const { name, phone, dob, service, date, time, duration = 30, status = 'New' } = appointmentData;
   
-  const startDateTime = new Date(`${date}T${time}:00`);
-  const endDateTime = new Date(startDateTime.getTime() + duration * 60000);
+  // Build local datetime strings WITHOUT a "Z" suffix
+  // so Google Calendar uses the timeZone field correctly.
+  // e.g. "2026-04-30T16:00:00"
+  const startStr = `${date}T${time}:00`;
+  
+  // Calculate end time manually
+  const [hh, mm] = time.split(':').map(Number);
+  const totalMinutes = hh * 60 + mm + duration;
+  const endHH = String(Math.floor(totalMinutes / 60) % 24).padStart(2, '0');
+  const endMM = String(totalMinutes % 60).padStart(2, '0');
+  const endStr = `${date}T${endHH}:${endMM}:00`;
 
   const event = {
     summary: `${(service || 'General Checkup').toUpperCase()} - ${name}`,
     description: `Phone: ${phone} | DOB: ${dob || 'N/A'} | Status: ${status}`,
     start: {
-      dateTime: startDateTime.toISOString(),
+      dateTime: startStr,
       timeZone: 'Asia/Kolkata', 
     },
     end: {
-      dateTime: endDateTime.toISOString(),
+      dateTime: endStr,
       timeZone: 'Asia/Kolkata',
     },
   };
