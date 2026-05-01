@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarah · AI Receptionist for Dental Practices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F4;
+    --bg-cream: #F2EDE3;
+    --ink: #0F1F1C;
+    --ink-soft: #3D4F4A;
+    --teal: #0F4F47;
+    --teal-deep: #07332D;
+    --accent: #D97757;
+    --gold: #C9A961;
+    --line: #E5DFD3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* NAV */
+  nav {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(250, 248, 244, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 50;
+  }
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--teal-deep);
+    letter-spacing: -0.5px;
+  }
+  .logo span { font-style: italic; color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--teal-deep); }
+  .nav-cta {
+    background: var(--teal-deep);
+    color: var(--bg) !important;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 100px 0 80px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--bg-cream);
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+    border: 1px solid var(--line);
+  }
+  .eyebrow .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ADE80;
+    margin-right: 8px;
+    vertical-align: middle;
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.2); }
+    50% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0.05); }
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    color: var(--teal-deep);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 20px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto 40px;
+    line-height: 1.5;
+  }
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--teal-deep);
+    color: var(--bg);
+    padding: 16px 32px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(7, 51, 45, 0.15);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(7, 51, 45, 0.2);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--teal-deep);
+    padding: 16px 32px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: var(--bg-cream); }
+
+  /* TRUST STRIP */
+  .trust {
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.4);
+  }
+  .trust-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .trust-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .trust-items {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .trust-items span {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* SECTION */
+  .section {
+    padding: 100px 0;
+  }
+  .section-eyebrow {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -1.2px;
+    color: var(--teal-deep);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  h2 em { font-style: italic; }
+  .section-lead {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* PROBLEM */
+  .problem-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    border-radius: 16px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--teal-deep);
+    margin-bottom: 16px;
+  }
+  .stat-num small { font-size: 36px; }
+  .stat-label {
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .stat-source {
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* HOW IT WORKS */
+  .how {
+    background: var(--bg-cream);
+    border-radius: 32px;
+    padding: 80px 60px;
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 56px;
+  }
+  .how-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 48px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .how-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--teal-deep);
+    margin-bottom: 12px;
+  }
+  .how-text {
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* FEATURES GRID */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .feature-card {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 36px 28px;
+    border-radius: 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-cream);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .feature-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teal-deep);
+    margin-bottom: 10px;
+  }
+  .feature-text {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* PROOF */
+  .proof {
+    background: var(--teal-deep);
+    color: var(--bg);
+    border-radius: 32px;
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .proof h2 { color: var(--bg); }
+  .proof .section-eyebrow { color: var(--gold); }
+  .quote {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--bg);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .quote-author {
+    font-size: 14px;
+    color: rgba(250, 248, 244, 0.7);
+  }
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .case-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .case-label {
+    color: rgba(250, 248, 244, 0.8);
+    font-size: 14px;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+    align-items: stretch;
+  }
+  .price-card {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.featured {
+    border: 2px solid var(--teal-deep);
+    box-shadow: 0 12px 40px rgba(7, 51, 45, 0.08);
+  }
+  .price-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .price-tier {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .price-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--teal-deep);
+    margin-bottom: 4px;
+  }
+  .price-num small {
+    font-size: 18px;
+    color: var(--ink-soft);
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+  }
+  .price-setup {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .price-features {
+    list-style: none;
+    margin-bottom: 32px;
+    flex-grow: 1;
+  }
+  .price-features li {
+    padding: 8px 0;
+    color: var(--ink);
+    font-size: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .price-features li::before {
+    content: "✓";
+    color: var(--teal);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .price-cta {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 14px;
+    border-radius: 999px;
+    background: var(--teal-deep);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+  }
+  .price-cta:hover { transform: translateY(-1px); }
+  .price-card.featured .price-cta { background: var(--accent); }
+  .price-guarantee {
+    text-align: center;
+    margin-top: 32px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  /* FAQ */
+  .faq-list {
+    margin: 48px auto 0;
+    max-width: 760px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+    cursor: pointer;
+  }
+  .faq-q {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--teal-deep);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .faq-q::after {
+    content: "+";
+    font-size: 24px;
+    color: var(--accent);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-q::after {
+    transform: rotate(45deg);
+  }
+  .faq-a {
+    color: var(--ink-soft);
+    margin-top: 12px;
+    line-height: 1.7;
+    display: none;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* FINAL CTA */
+  .final-cta {
+    text-align: center;
+    padding: 120px 0;
+  }
+  .final-cta .section-lead { margin: 0 auto 40px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 60px 0 40px; }
+    h1 { font-size: 44px; letter-spacing: -1.2px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .problem-stats, .how-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+    .proof { grid-template-columns: 1fr; padding: 48px 32px; }
+    .how { padding: 48px 32px; border-radius: 20px; }
+    .section { padding: 60px 0; }
+    .stat-num, .price-num { font-size: 56px; }
+  }
+</style>
+<style>
+.ha-img-placeholder{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:#f4f4f5;border:1px dashed #d4d4d8;border-radius:8px;color:#71717a;font-size:12px;font-family:system-ui,sans-serif;min-height:80px;padding:16px;box-sizing:border-box;animation:ha-img-pulse 1.5s ease-in-out infinite}
+.ha-img-placeholder.ha-failed{animation:none;opacity:.7}
+@keyframes ha-img-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@media(prefers-color-scheme:dark){.ha-img-placeholder{background:#27272a;border-color:#3f3f46;color:#a1a1aa}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">Sarah<span>.</span></div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#demo" class="nav-cta">Book a demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow"><span class="dot"></span>Onboarding 12 practices in May</div>
+    <h1>Stop missing<br>1 in 4 patient <em>calls.</em></h1>
+    <p class="hero-sub">Sarah is a 24/7 AI receptionist that answers every call, books appointments to your Google Calendar, and confirms via WhatsApp — for less than the cost of one shift a week.</p>
+    <div class="cta-row">
+      <a href="#demo" class="btn-primary">Book a 15-min demo →</a>
+      <a href="tel:+1XXXXXXXXXX" class="btn-secondary">📞 Call Sarah live</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="trust">
+  <div class="container trust-inner">
+    <div class="trust-label">Built for dental practices</div>
+    <div class="trust-items">
+      <span>· GPT-4 powered</span>
+      <span>· Google Calendar native</span>
+      <span>· WhatsApp confirmations</span>
+      <span>· BAA available on request</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">The cost of unanswered calls</div>
+    <h2>Every missed call is a<br><em>patient who chose someone else.</em></h2>
+    <p class="section-lead">The math is brutal. The average dental practice misses 27% of incoming calls — and 67% of new patients book with whoever answers first.</p>
+
+    <div class="problem-stats">
+      <div class="stat-card">
+        <div class="stat-num">27<small>%</small></div>
+        <div class="stat-label">of dental calls go unanswered</div>
+        <div class="stat-source">NexHealth Industry Report, 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$280</div>
+        <div class="stat-label">average value of one missed new-patient call</div>
+        <div class="stat-source">ADA New Patient LTV study</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">67<small>%</small></div>
+        <div class="stat-label">of patients book with the first practice that answers</div>
+        <div class="stat-source">Patient Experience Survey, 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="how">
+      <div class="section-eyebrow">How it works</div>
+      <h2>Live in <em>two days.</em><br>No new hardware.</h2>
+
+      <div class="how-grid">
+        <div>
+          <div class="how-num">01</div>
+          <div class="how-title">Forward your line</div>
+          <div class="how-text">Update one setting in your phone provider to forward unanswered calls to Sarah. Five minutes, no IT required.</div>
+        </div>
+        <div>
+          <div class="how-num">02</div>
+          <div class="how-title">Sarah answers, 24/7</div>
+          <div class="how-text">Books appointments, reschedules, answers FAQs, handles insurance pre-screening — all in natural conversation.</div>
+        </div>
+        <div>
+          <div class="how-num">03</div>
+          <div class="how-title">You wake up to a full chair</div>
+          <div class="how-text">Calendar synced. Patients confirmed via WhatsApp. Front desk freed up to focus on patients in-office.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-eyebrow">What Sarah handles</div>
+    <h2>Trained on dental.<br><em>Not a generic chatbot.</em></h2>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎙</div>
+        <div class="feature-title">Natural voice booking</div>
+        <div class="feature-text">GPT-4 conversation with empathy training. Patients can't tell they're talking to AI.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-title">Google Calendar sync</div>
+        <div class="feature-text">Real-time, two-way sync. No double-bookings. Block-off times respected.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <div class="feature-title">WhatsApp confirmations</div>
+        <div class="feature-text">Automated 24h and 2h reminders. Cuts no-shows by ~40%.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡</div>
+        <div class="feature-title">Insurance pre-screen</div>
+        <div class="feature-text">Captures insurance details upfront so your team isn't stuck on admin calls.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚨</div>
+        <div class="feature-title">After-hours emergencies</div>
+        <div class="feature-text">Triages urgency, escalates to your on-call line, books non-urgent for next morning.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">Post-visit reviews</div>
+        <div class="feature-text">Auto-text happy patients to leave a Google review. More 5-stars, no nagging.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="section">
+  <div class="container">
+    <div class="proof">
+      <div>
+        <div class="section-eyebrow">Real numbers</div>
+        <h2>23 new patients<br><em>in month one.</em></h2>
+        <p style="color: rgba(250, 248, 244, 0.85); font-size: 17px; margin-top: 16px; line-height: 1.6;">A 2-chair private practice in Austin, TX turned on Sarah, kept their existing front desk team, and recovered $6,440 in missed-call revenue in 30 days.</p>
+      </div>
+      <div>
+        <div class="quote">"Sarah books patients while we sleep. We didn't realize how many calls we were missing until she started answering them."</div>
+        <div class="quote-author">— Dr. Megan R., 2-chair private practice (pilot customer)</div>
+        <div class="case-stats">
+          <div>
+            <div class="case-num">23</div>
+            <div class="case-label">new patients booked, month 1</div>
+          </div>
+          <div>
+            <div class="case-num">$6,440</div>
+            <div class="case-label">recovered missed-call revenue</div>
+          </div>
+          <div>
+            <div class="case-num">14h</div>
+            <div class="case-label">front-desk time freed weekly</div>
+          </div>
+          <div>
+            <div class="case-num">38%</div>
+            <div class="case-label">reduction in no-shows</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Pricing</div>
+    <h2>Pays for itself in<br><em>one new patient.</em></h2>
+    <p class="section-lead">All plans include a 14-day risk-free trial. If Sarah doesn't book at least 5 new patients in your first 30 days, full refund. No questions asked.</p>
+
+    <div class="pricing-grid">
+      <!-- Starter -->
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-num">$197<small>/mo</small></div>
+        <div class="price-setup">+ $497 one-time setup</div>
+        <ul class="price-features">
+          <li>Up to 200 calls/month</li>
+          <li>24/7 voice booking</li>
+          <li>Google Calendar sync</li>
+          <li>WhatsApp confirmations</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#demo" class="price-cta">Start with Starter →</a>
+      </div>
+
+      <!-- Growth -->
+      <div class="price-card featured">
+        <div class="price-badge">MOST POPULAR</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-num">$397<small>/mo</small></div>
+        <div class="price-setup">+ $997 one-time setup</div>
+        <ul class="price-features">
+          <li>Up to 800 calls/month</li>
+          <li>Everything in Starter</li>
+          <li>Insurance pre-screening</li>
+          <li>WhatsApp recall campaigns</li>
+          <li>Post-visit review automation</li>
+          <li>Priority support, dedicated onboarder</li>
+        </ul>
+        <a href="#demo" class="price-cta">Start with Growth →</a>
+      </div>
+
+      <!-- Multi -->
+      <div class="price-card">
+        <div class="price-tier">Multi-location</div>
+        <div class="price-num">Custom</div>
+        <div class="price-setup">For 2+ practices</div>
+        <ul class="price-features">
+          <li>Unlimited calls</li>
+          <li>Per-location call routing</li>
+          <li>Custom voice & branding</li>
+          <li>PMS integrations (Open Dental, Dentrix)</li>
+          <li>BAA + dedicated infrastructure</li>
+          <li>Dedicated CSM</li>
+        </ul>
+        <a href="#demo" class="price-cta">Talk to sales →</a>
+      </div>
+    </div>
+
+    <div class="price-guarantee">14-day risk-free trial · Refund if Sarah doesn't book 5+ new patients in month one · Cancel anytime</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Common questions</div>
+    <h2 style="text-align:center;">Questions practice owners ask.</h2>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">Will Sarah sound robotic to patients?</div>
+        <div class="faq-a">No. Sarah runs on GPT-4 with voice training tuned for warmth and empathy. Most patients can't tell they're not speaking to a human. You can hear her live by calling our demo line, or test her against any sample script before signing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does Sarah integrate with Open Dental, Dentrix, or Eaglesoft?</div>
+        <div class="faq-a">All plans sync to Google Calendar out of the box. PMS integrations (Open Dental, Dentrix, Eaglesoft) are available on Growth and Multi-location plans, typically rolled out within 1–2 weeks of onboarding.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is Sarah HIPAA compliant?</div>
+        <div class="faq-a">Yes. We sign a BAA on request, encrypt all patient data in transit and at rest, and offer US-based data residency on Multi-location plans. Happy to walk your IT or compliance lead through our security stack on a 15-min call.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if Sarah can't answer something?</div>
+        <div class="faq-a">She gracefully escalates: takes a detailed message and routes it to your front desk, or transfers live to your on-call line during emergencies. Your patients will never feel stranded.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does setup take?</div>
+        <div class="faq-a">Two business days from contract signed. We handle the call-forwarding setup, calendar sync, voice tuning to your practice tone, and FAQ training. You don't need to lift a finger beyond a 30-min kickoff call.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will it replace my front desk?</div>
+        <div class="faq-a">No — and that's the point. Your front desk team is your most valuable patient-facing resource. Sarah handles overflow, after-hours, and routine bookings so your team can focus on patients in the chair, payments, and care coordination.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="demo">
+  <div class="container">
+    <div class="section-eyebrow">Ready to never miss a patient again?</div>
+    <h2>Book a 15-min demo.<br><em>See Sarah on your own data.</em></h2>
+    <p class="section-lead">We'll run Sarah on a sample of your last 50 missed calls and show you exactly how much revenue she would have recovered.</p>
+    <div class="cta-row">
+      <a href="https://calendly.com/your-link" class="btn-primary">Book a demo →</a>
+      <a href="tel:+1XXXXXXXXXX" class="btn-secondary">📞 Or just call Sarah</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© 2026 Sarah AI · Built for dental practices.</div>
+    <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d7bfb2bbbbb897aeb8a2a5b3b8bab6beb9f9b4b8ba">[email&#160;protected]</a> · BAA available on request</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && window.parent !== window) {
+    window.parent.postMessage({ type: 'close-fullscreen' }, '*');
+  }
+});
+</script>
+<!-- broken-img-handler -->
+<script>
+(function(){
+  if(window.__brokenImgHandler)return;
+  window.__brokenImgHandler=true;
+  var MAX=5,DELAYS=[2000,4000,8000,16000,32000];
+  document.addEventListener('error',function(e){
+    var img=e.target;
+    if(!img||img.tagName!=='IMG')return;
+    var liveSrc=img.getAttribute('src');
+    var src=img.dataset.haOriginalSrc||liveSrc;
+    if(!src)return;
+    if(img.dataset.haOriginalSrc&&liveSrc&&liveSrc!==img.dataset.haOriginalSrc&&liveSrc.indexOf('_r=')<0){src=liveSrc;img.dataset.haOriginalSrc=src;img.dataset.haRetryCount='0'}
+    else if(!img.dataset.haOriginalSrc){img.dataset.haOriginalSrc=src}
+    var attempt=parseInt(img.dataset.haRetryCount||'0',10);
+    if(img.dataset.haPhId){var old=document.getElementById(img.dataset.haPhId);if(old)old.remove()}
+    var ph=document.createElement('div');
+    ph.className='ha-img-placeholder'+(attempt>=MAX?' ha-failed':'');
+    ph.id='ha-ph-'+Math.random().toString(36).slice(2,9);
+    var w=img.getAttribute('width');var h=img.getAttribute('height');
+    if(w)ph.style.width=w+(isNaN(Number(w))?'':'px');
+    else if(img.style.width)ph.style.width=img.style.width;
+    else if(img.width>1)ph.style.width=img.width+'px';
+    if(h)ph.style.height=h+(isNaN(Number(h))?'':'px');
+    else if(img.style.height)ph.style.height=img.style.height;
+    else if(img.height>1)ph.style.height=img.height+'px';
+    ph.textContent=attempt>=MAX?'Image unavailable':'Loading image\u2026';
+    img.dataset.haPhId=ph.id;
+    if(img.dataset.haOrigDisplay==null)img.dataset.haOrigDisplay=img.style.display||'';
+    img.style.display='none';
+    img.insertAdjacentElement('afterend',ph);
+    if(attempt<MAX){
+      img.dataset.haRetryCount=String(attempt+1);
+      setTimeout(function(){
+        if(!img.isConnected)return;
+        if(img.dataset.haOriginalSrc!==src)return;
+        if(img.complete&&img.naturalWidth>0)return;
+        var curSrc=img.getAttribute('src');
+        if(curSrc&&curSrc.indexOf(src)!==0)return;
+        var fresh=src+(src.indexOf('?')>=0?'&':'?')+'_r='+(attempt+1)+'_'+Date.now();
+        img.src=fresh;
+      },DELAYS[attempt]);
+    }
+  },true);
+  document.addEventListener('load',function(e){
+    var img=e.target;
+    if(!img||img.tagName!=='IMG')return;
+    if(img.dataset.haPhId){
+      var ph=document.getElementById(img.dataset.haPhId);
+      if(ph)ph.remove();
+      delete img.dataset.haPhId;
+      img.style.display=img.dataset.haOrigDisplay||'';
+      delete img.dataset.haOrigDisplay;
+      delete img.dataset.haOriginalSrc;
+      delete img.dataset.haRetryCount;
+    }
+  },true);
+})();
+</script>
+</body>
+</html>
